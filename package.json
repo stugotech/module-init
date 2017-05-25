@@ -1,0 +1,37 @@
+{
+  "name": "@stugotech/module-init",
+  "version": "1.0.0",
+  "description": "Initialisation system for easy module loading.",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
+  "scripts": {
+    "prepublish": "gulp",
+    "test": "ava --verbose dist/test"
+  },
+  "files": [
+    "dist/lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stugotech/module-init.git"
+  },
+  "author": "Gordon Mackenzie-Leigh <gordon@stugo.co.uk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stugotech/module-init/issues"
+  },
+  "homepage": "https://github.com/stugotech/module-init#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.22",
+    "ava": "^0.19.1",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-merge": "^0.1.1",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-typescript": "^3.1.6",
+    "typescript": "^2.3.3"
+  },
+  "dependencies": {
+    "@stugotech/directed-graph": "^1.0.0"
+  }
+}
