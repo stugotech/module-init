@@ -54,9 +54,9 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@stugotech/directed-graph@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@stugotech/directed-graph/-/directed-graph-1.1.0.tgz#f376789d499f974df3bef65cccad7e76a1376b46"
+"@stugotech/directed-graph@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@stugotech/directed-graph/-/directed-graph-1.1.1.tgz#43e03f4a2e0a8d1b354237a14f8b0b88e9fc1b0a"
 
 "@types/node@^7.0.22":
   version "7.0.22"
