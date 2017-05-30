@@ -13,7 +13,18 @@ export class Module<TInitContext> {
     public name: string, 
     public needs: Module<TInitContext>[], 
     public neededBy: Module<TInitContext>[], 
-    public init: InitFunction<TInitContext>) {
+    public init: InitFunction<TInitContext>) 
+  {
+    for (let i = 0; i < needs.length; ++i) {
+      if (!needs[i]) {
+        throw new Error(`module ${name} has unsatisfied dependency (number ${i+1})`);
+      }
+    }
+    for (let i = 0; i < neededBy.length; ++i) {
+      if (!neededBy[i]) {
+        throw new Error(`module ${name} has unsatisfied dependendant (number ${i+1})`);
+      }
+    }
   }
 
   toString() {
