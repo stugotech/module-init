@@ -17,12 +17,12 @@ export class Module<TInitContext> {
   {
     for (let i = 0; i < needs.length; ++i) {
       if (!needs[i]) {
-        throw new Error(`module ${name} has unsatisfied dependency (number ${i+1})`);
+        throw new Error(`module ${name} has null dependency (number ${i+1})`);
       }
     }
     for (let i = 0; i < neededBy.length; ++i) {
       if (!neededBy[i]) {
-        throw new Error(`module ${name} has unsatisfied dependendant (number ${i+1})`);
+        throw new Error(`module ${name} has null dependendant (number ${i+1})`);
       }
     }
   }
