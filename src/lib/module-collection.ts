@@ -7,33 +7,40 @@ import once from './once';
  * ModuleCollection is a collection of modules that can be initialised in dependency order.
  */
 export class ModuleCollection<TInitContext> {
-  private rootModule: Module<TInitContext>;
   private readonly graph: DirectedGraph<Module<TInitContext>>;
 
   /**
    * Create a new instance of ModuleCollection.
    * @param modules List of modules to load.
    */
-  constructor(modules: Iterable<Module<TInitContext>>) {
-    this.rootModule = new Module<TInitContext>('__root__', [], [], () => {});
-    const graph = new DirectedGraph<Module<TInitContext>>();
+  constructor(modules?: Iterable<Module<TInitContext>>) {
+    this.graph = new DirectedGraph<Module<TInitContext>>();
+
+    if (modules !== undefined) {
+      this.add(modules);
+    }
+  }
+
+
+  /**
+   * Add one or more modules.
+   * @param modules List of modules to add, or a single module.
+   */
+  add(modules: Iterable<Module<TInitContext>>|Module<TInitContext>) {
+    if (!isIterable(modules)) {
+      modules = [modules];
+    }
 
     for (let module of modules) {
-      graph.addVertex(module);
+      this.graph.addVertex(module);
 
       for (let need of module.needs) {
-        graph.addEdge(module, need);
+        this.graph.addEdge(module, need);
       }
       for (let neededBy of module.neededBy) {
-        graph.addEdge(neededBy, module);
+        this.graph.addEdge(neededBy, module);
       }
     }
-
-    for (let leaf of graph.leaves()) {
-      graph.addEdge(leaf, this.rootModule);
-    }
-
-    this.graph = graph.reverse();
   }
 
 
@@ -54,7 +61,14 @@ export class ModuleCollection<TInitContext> {
    * Group the modules into stages for initialisation in sequence.
    */
   getInitStages() : Module<TInitContext>[][] {
-    const adjacencies = this.graph.getAdjacencyToNode(this.rootModule);
+    const rootModule = new Module<TInitContext>('__root__', [], [], () => {});
+    const graph = this.graph.shallowClone();
+    
+    for (let leaf of graph.leaves()) {
+      graph.addEdge(leaf, rootModule);
+    }
+
+    const adjacencies = graph.reverse().getAdjacencyToNode(rootModule);
 
     // group modules into stages by path length
     const stages = [...adjacencies.entries()]
@@ -68,3 +82,9 @@ export class ModuleCollection<TInitContext> {
     return stages;
   }
 };
+
+
+
+function isIterable<T>(obj: T|Iterable<T>): obj is Iterable<T> {
+  return obj != null && typeof (obj as any)[Symbol.iterator] === 'function';
+}
