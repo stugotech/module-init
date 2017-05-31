@@ -1,4 +1,5 @@
-import * as fs from 'mz/fs';
+import callback from './callback';
+import * as fs from 'fs';
 import { Module } from './module';
 import * as path from 'path';
 
@@ -33,11 +34,11 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
     modulePath = path.resolve('.', modulePath);
   }
 
-  let files = await fs.readdir(modulePath);
+  let files = await callback<string[]>(cb => fs.readdir(modulePath, cb));
 
   for (const file of files) {
     const filePath = path.join(modulePath, file);
-    const st = await fs.stat(filePath);
+    const st = await callback<fs.Stats>(cb => fs.stat(filePath, cb));
 
     if (st.isDirectory()) {
       if (options.recursive) {
