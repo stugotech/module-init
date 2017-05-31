@@ -42,7 +42,7 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
     modules = modules!;
 
     const filePath = path.join(modulePath, file);
-    const st = await fs.stat(file);
+    const st = await fs.stat(filePath);
 
     if (st.isDirectory()) {
       if (options.recursive) {
@@ -55,7 +55,7 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
         if (options.postResolve !== undefined) {
           options.postResolve(module);
         }
-        
+
         if (module.name in modules) {
           throw new Error(`duplicate module name '${module.name}'`);
         }
