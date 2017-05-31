@@ -35,12 +35,7 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
 
   let files = await fs.readdir(modulePath);
 
-  // process files in parallel
-  await Promise.all(files.map(async (file) => {
-    // not sure why TSC thinks these might be undefined here, but override
-    options = options!;
-    modules = modules!;
-
+  for (const file of files) {
     const filePath = path.join(modulePath, file);
     const st = await fs.stat(filePath);
 
@@ -63,7 +58,7 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
         modules[module.name] = module;
       }
     }
-  }));
+  }
 
   return modules;
 }
