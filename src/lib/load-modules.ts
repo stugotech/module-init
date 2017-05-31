@@ -35,7 +35,11 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
 
   let files = await fs.readdir(modulePath);
 
-  for (const file of files) {
+  await Promise.all(files.map(async (file) => {
+    // not sure why TSC thinks these will be null but override
+    options = options!;
+    modules = modules!;
+    
     const filePath = path.join(modulePath, file);
     const st = await fs.stat(filePath);
 
@@ -58,7 +62,7 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
         modules[module.name] = module;
       }
     }
-  }
+  }));
 
   return modules;
 }
