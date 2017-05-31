@@ -1,6 +1,6 @@
 {
   "name": "@stugotech/module-init",
-  "version": "1.4.3",
+  "version": "1.4.2",
   "description": "Initialisation system for easy module loading.",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
@@ -33,6 +33,7 @@
     "typescript": "^2.3.3"
   },
   "dependencies": {
-    "@stugotech/directed-graph": "^1.1.1"
+    "@stugotech/directed-graph": "^1.1.1",
+    "mz": "^2.6.0"
   }
 }
