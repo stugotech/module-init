@@ -45,20 +45,3 @@ export function define<TInitContext>(
 ) {
   return new Module<TInitContext>(name, needs, neededBy, init);
 }
-
-
-/**
- * Get the definition of a module if defined, or undefined otherwise.
- * @param module The module to load.
- */
-export function getDefinition(module: any) : InitFunction<any> | undefined {
-  if (module.__esModule && !module.definition) {
-    module = module.default;
-  }
-
-  if (module && module.definition) {
-    return module.definition;
-  } else {
-    return undefined;
-  }
-}
