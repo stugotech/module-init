@@ -41,7 +41,7 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
 
     if (st.isDirectory()) {
       if (options.recursive) {
-        loadModules(filePath, options, modules);
+        await loadModules(filePath, options, modules);
       }
     } else if (options.filter === undefined || options.filter.test(file)) {
       const module = options.resolve!(require(filePath));

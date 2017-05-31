@@ -1,6 +1,6 @@
 {
   "name": "@stugotech/module-init",
-  "version": "1.4.2",
+  "version": "1.4.4",
   "description": "Initialisation system for easy module loading.",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
@@ -29,7 +29,9 @@
     "gulp": "^3.9.1",
     "gulp-merge": "^0.1.1",
     "gulp-sourcemaps": "^2.6.0",
+    "gulp-tslint": "^8.1.0",
     "gulp-typescript": "^3.1.6",
+    "tslint": "^5.3.2",
     "typescript": "^2.3.3"
   },
   "dependencies": {
