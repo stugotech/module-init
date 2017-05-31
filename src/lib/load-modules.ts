@@ -9,8 +9,8 @@ import * as path from 'path';
 export interface LoadModulesOptions {
   recursive?: boolean;
   filter?: RegExp;
-  resolve?: (module: any) => Module<any> | undefined;
-  postResolve?: (module: Module<any>) => void;
+  resolve?: (module: any, filename: string) => Module<any> | undefined;
+  postResolve?: (module: Module<any>, filename: string) => void;
 };
 
 /**
@@ -44,11 +44,11 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
         await loadModules(filePath, options, modules);
       }
     } else if (options.filter === undefined || options.filter.test(file)) {
-      const module = options.resolve!(require(filePath));
+      const module = options.resolve!(require(filePath), filePath);
 
       if (module !== undefined) {
         if (options.postResolve !== undefined) {
-          options.postResolve(module);
+          options.postResolve(module, filePath);
         }
 
         if (module.name in modules) {

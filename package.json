@@ -1,6 +1,6 @@
 {
   "name": "@stugotech/module-init",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "Initialisation system for easy module loading.",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
