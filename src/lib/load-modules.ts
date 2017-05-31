@@ -9,6 +9,8 @@ import * as path from 'path';
 export interface LoadModulesOptions {
   recursive?: boolean;
   filter?: RegExp;
+  resolve?: (module: any) => Module<any> | undefined;
+  postResolve?: (module: Module<any>) => void;
 };
 
 /**
@@ -23,6 +25,7 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
   options = Object.assign(<LoadModulesOptions>{
     recursive: true,
     filter: /\.js$/,
+    resolve: getDefinition,
   }, options || {});
 
   // make paths relative to working dir (otherwise require might look in unexpected places).
@@ -46,12 +49,17 @@ export async function loadModules(modulePath: string, options?: LoadModulesOptio
         loadModules(filePath, options, modules);
       }
     } else if (options.filter === undefined || options.filter.test(file)) {
-      const module = getDefinition(require(filePath));
+      const module = options.resolve!(require(filePath));
 
       if (module !== undefined) {
+        if (options.postResolve !== undefined) {
+          options.postResolve(module);
+        }
+        
         if (module.name in modules) {
           throw new Error(`duplicate module name '${module.name}'`);
         }
+
         modules[module.name] = module;
       }
     }
